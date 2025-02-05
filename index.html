@@ -176,6 +176,7 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          cursor: pointer;
         }
       
         .video-text {
@@ -195,6 +196,9 @@
           border-radius: 50%;
           cursor: pointer;
           transition: 0.3s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       
         .polina button:hover {
@@ -203,18 +207,20 @@
       
         .polina button i {
           color: white;
+          font-size: 24px;
         }
       
       </style>
       
       <div class="ready-to-play">
-        <video id="bgvid" class="stop" loop autoplay muted>
+        <video id="bgvid" loop autoplay muted>
           <source src="assets/video/TPHE8914.MP4" type="video/mp4">
         </video>
-        <div class="video-overlay">
-          <div class="video-text">Cliquez pour lire ou mettre en pause</div>
+        <div class="video-overlay" id="videoOverlay">
           <div class="polina">
-            <button id="playPauseBtn"><i class='lni-play'></i></button>
+            <button id="playPauseBtn">
+              <i class="lni lni-pause" id="playPauseIcon"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -223,17 +229,41 @@
         document.addEventListener("DOMContentLoaded", function () {
           var video = document.getElementById("bgvid");
           var playPauseBtn = document.getElementById("playPauseBtn");
-          var icon = playPauseBtn.querySelector("i");
+          var playPauseIcon = document.getElementById("playPauseIcon");
+          var overlay = document.getElementById("videoOverlay");
       
-          playPauseBtn.addEventListener("click", function () {
+          function togglePlayPause() {
             if (video.paused) {
               video.play();
-              icon.className = "lni-pause"; // Change to pause icon
+              playPauseIcon.classList.remove("lni-play");
+              playPauseIcon.classList.add("lni-pause");
             } else {
               video.pause();
-              icon.className = "lni-play"; // Change back to play icon
+              playPauseIcon.classList.remove("lni-pause");
+              playPauseIcon.classList.add("lni-play");
+            }
+          }
+      
+          function enableAudio() {
+            video.muted = false;
+            video.play();
+          }
+      
+          // Activer le son au premier clic sur la vidéo ou l'overlay
+          overlay.addEventListener("click", function () {
+            if (video.muted) {
+              enableAudio();
+            } else {
+              togglePlayPause();
             }
           });
+      
+          // Permettre la pause/lecture en cliquant sur le bouton
+          playPauseBtn.addEventListener("click", function (event) {
+            event.stopPropagation(); // Empêche le clic de remonter au parent
+            togglePlayPause();
+          });
+      
         });
       </script>
     <!-- Fin de la section vidéo-->
