@@ -28,6 +28,42 @@
       +'<div class="time-entry seconds"><span>%S</span> Seconds</div> '));
     });
 
+
+
+
+
+
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      let phrases = ["BIENVENUE CHEZ", "INNOVEZ AVEC", "EXPLORONS L'AVENIR AVEC"];
+      let i = 0;
+      let speed = 2000;  
+  
+      function changeText() {
+          document.getElementById("dynamic-text").innerText = phrases[i];
+          i = (i + 1) % phrases.length;
+          setTimeout(changeText, speed);
+      }
+      changeText();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /* Auto Close Responsive Navbar on Click
     ========================================================*/
     function close_toggle() {
